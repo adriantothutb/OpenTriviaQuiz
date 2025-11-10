@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.OpenTriviaQuiz" parent="android:Theme.Material.Light.NoActionBar" />
+    <!-- Hlavná app téma – Material3 (View systém) -->
+    <style name="Theme.OpenTriviaQuiz" parent="Theme.Material3.DayNight.NoActionBar" />
+
+    <!-- Splash/Launcher téma -->
+    <style name="Theme.OpenTriviaQuiz.Launcher" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/splash_background</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
+        <item name="postSplashScreenTheme">@style/Theme.OpenTriviaQuiz</item>
+    </style>
+
 </resources>

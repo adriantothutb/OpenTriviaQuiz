@@ -1,24 +1,39 @@
-package com.opentriviaquiz // názov balíka aplikácie (musí sedieť s Manifestom a adresárovou štruktúrou)
+package com.opentriviaquiz // názov balíka – musí sa zhodovať s cestou a Manifestom
 
-import android.os.Bundle // potrebné na získanie Bundle v onCreate
-import androidx.activity.ComponentActivity // základná Activity pre Compose
-import androidx.activity.compose.setContent // funkcia, ktorá vloží Compose UI do Activity
-import androidx.compose.material3.MaterialTheme // Material3 téma – farby, typografia
-import androidx.compose.material3.Surface // obal, ktorý použijeme ako „plátno“ s pozadím
-import androidx.navigation.compose.rememberNavController // vytvorí a drží NavController pre Compose
-import com.opentriviaquiz.ui.nav.AppNav // naša NavHost funkcia s definíciou rout
-import com.opentriviaquiz.ui.theme.OpenTriviaQuizTheme // naša app téma (generovaná Android Studiom)
+import android.os.Bundle // umožňuje použiť Bundle (na ukladanie stavu)
+import androidx.activity.ComponentActivity // základná trieda pre Compose Activity
+import androidx.activity.compose.setContent // funkcia, ktorá vkladá Compose obsah do Activity
+import androidx.compose.material3.MaterialTheme // obsahuje farby, typografiu, tvary Material3
+import androidx.compose.material3.Surface // komponent pre jednotné pozadie
+import androidx.navigation.compose.rememberNavController // uchová navigačný stav medzi obrazovkami
+import com.opentriviaquiz.ui.nav.AppNav // import navigačnej funkcie (náš NavHost)
+import com.opentriviaquiz.ui.theme.OpenTriviaQuizTheme // import hlavnej Material3 témy
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen // Splash API pre Android 12+
 
-class MainActivity : ComponentActivity() { // hlavná vstupná aktivita – spúšťa sa pri otvorení appky
-    override fun onCreate(savedInstanceState: Bundle?) { // lifecycle callback – tu konfigurujeme UI
-        super.onCreate(savedInstanceState) // zavoláme rodičovskú implementáciu
-        setContent { // od tohto bodu kreslíme UI deklaratívne cez Compose
-            OpenTriviaQuizTheme { // zabalíme UI do našej Material3 témy (farby, typography, shapes)
-                Surface( // Surface poskytuje pozadie a zjednotený štýl pre plochu
-                    color = MaterialTheme.colorScheme.background // použijeme farbu pozadia z témy
+// Hlavná vstupná aktivita aplikácie – spúšťa sa ako prvá pri otvorení appky
+class MainActivity : ComponentActivity() {
+
+    // lifecycle metóda, ktorá sa volá pri vytváraní Activity
+    override fun onCreate(savedInstanceState: Bundle?) {
+        // Inicializácia SplashScreenu musí byť úplne na začiatku
+        installSplashScreen()
+
+        // Zavolanie pôvodnej implementácie z ComponentActivity
+        super.onCreate(savedInstanceState)
+
+        // Vloženie Compose UI do aktivity
+        setContent {
+            // Použijeme našu tému OpenTriviaQuizTheme (farby, typografia, povrchy)
+            OpenTriviaQuizTheme {
+                // Surface slúži ako "plátno" s pozadím podľa farieb témy
+                Surface(
+                    color = MaterialTheme.colorScheme.background // pozadie z aktuálnej témy
                 ) {
-                    val navController = rememberNavController() // vytvoríme NavController (uchová stav cez recompozície)
-                    AppNav(navController) // vložíme náš navigačný graf – ten rozhodne, ktorý screen sa kreslí
+                    // Vytvorenie navigačného kontroléra pre Compose Navigation
+                    val navController = rememberNavController()
+
+                    // Zavolanie AppNav – naša funkcia s definíciou obrazoviek (rout)
+                    AppNav(navController)
                 }
             }
         }
